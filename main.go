@@ -19,5 +19,5 @@ func main() {
 	r.HandleFunc("/product/{id}", productcontroller.Update).Methods("PUT")
 	r.HandleFunc("/product", productcontroller.Delete).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
