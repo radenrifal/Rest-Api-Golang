@@ -1,27 +1,26 @@
 package productcontroller
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"github.com/radenrifal/Rest-Api-Golang/helper"
 	"github.com/radenrifal/Rest-Api-Golang/models"
 )
+
+var ResponseJson = helper.ResponseJson
+var ResponseError = helper.ResponseError
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	var products []models.Product
 
 	if err := models.DB.Find(&products).Error; err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
 		fmt.Println(err)
 		return
 	}
 
-	response, _ := json.Marshal(products)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(response)
-
-	fmt.Println(response)
+	ResponseJson(w, http.StatusOK, products)
 }
 
 func Show(w http.ResponseWriter, r *http.Request) {
